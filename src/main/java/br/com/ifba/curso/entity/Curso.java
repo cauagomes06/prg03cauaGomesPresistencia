@@ -4,10 +4,13 @@
  */
 package br.com.ifba.curso.entity;
 
+import jakarta.persistence.Entity;
+
 /**
  *
  * @author Cauã
  */
+@Entity
 public class Curso {
     
 }
