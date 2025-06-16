@@ -27,83 +27,103 @@ public class CursoListar extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        btnCadastrar = new javax.swing.JToggleButton();
+        btnEditar = new javax.swing.JToggleButton();
+        btnDeletar = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TxtAbusca = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        TxtAList = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
+        txtALista = new javax.swing.JTextArea();
+        lblLista = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("EDITAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jPanel1.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnCadastrar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cauã\\OneDrive\\Documentos\\NetBeansProjects\\prg03presistencia\\src\\main\\java\\br\\com\\ifba\\curso\\images\\adicioonar.png")); // NOI18N
+        btnCadastrar.setText("NOVO");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCadastrarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, 120, 50));
+        jPanel1.add(btnCadastrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 110, 50));
 
-        jButton2.setText("DELETAR");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cauã\\OneDrive\\Documentos\\NetBeansProjects\\prg03presistencia\\src\\main\\java\\br\\com\\ifba\\curso\\images\\EDITAR.png")); // NOI18N
+        btnEditar.setText("EDITAR");
+        btnEditar.setMaximumSize(new java.awt.Dimension(100, 135));
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, 120, 50));
+        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 110, 50));
 
-        jButton3.setText("NOVO");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnDeletar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cauã\\OneDrive\\Documentos\\NetBeansProjects\\prg03presistencia\\src\\main\\java\\br\\com\\ifba\\curso\\images\\excluir.png")); // NOI18N
+        btnDeletar.setText("EXCLUIR");
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnDeletarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 120, 50));
+        jPanel1.add(btnDeletar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, 110, 50));
 
-        TxtAbusca.setColumns(20);
-        TxtAbusca.setRows(5);
-        jScrollPane1.setViewportView(TxtAbusca);
+        txtALista.setColumns(20);
+        txtALista.setRows(5);
+        jScrollPane1.setViewportView(txtALista);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 210, -1, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, -1, 290));
 
-        jLabel1.setText("           BUSCAR CURSO");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 140, 170, 40));
+        lblLista.setForeground(new java.awt.Color(255, 255, 255));
+        lblLista.setText("LISTA");
+        jPanel1.add(lblLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 150, 30));
 
-        TxtAList.setColumns(20);
-        TxtAList.setRows(5);
-        jScrollPane2.setViewportView(TxtAList);
+        jTextField1.setText("Pesquisar...");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 130, 190, -1));
+        jPanel1.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 130, 40, 20));
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, -1, 270));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 60));
 
-        jLabel2.setText("LISTA");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(357, 30, 80, -1));
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-         CursoEditar cursoEditar = new CursoEditar();
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+         
+        CursoEditar cursoEditar = new CursoEditar();
          
          cursoEditar.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showConfirmDialog(null, "voce deseja excluir o curso?", "Confirme", JOptionPane.YES_NO_OPTION);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-             // TODO add your handling code here:
-             CursoCadastrar cursoCadastrar = new CursoCadastrar();
-             
-             cursoCadastrar.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+         
+        CursoCadastrar cursoCadastrar = new CursoCadastrar();
+         
+         cursoCadastrar.setVisible(true);
+
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+    
+    JOptionPane.showConfirmDialog(null,"Voce deseja exluir?","Confirme",JOptionPane.YES_NO_OPTION);
+    }//GEN-LAST:event_btnDeletarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,14 +161,16 @@ public class CursoListar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea TxtAList;
-    private javax.swing.JTextArea TxtAbusca;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JToggleButton btnCadastrar;
+    private javax.swing.JToggleButton btnDeletar;
+    private javax.swing.JToggleButton btnEditar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JLabel lblLista;
+    private javax.swing.JTextArea txtALista;
     // End of variables declaration//GEN-END:variables
 }
