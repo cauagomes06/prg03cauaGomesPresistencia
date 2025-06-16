@@ -37,9 +37,9 @@ public class CursoListar extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtALista = new javax.swing.JTextArea();
         lblLista = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jPanel2 = new javax.swing.JPanel();
+        TXTPesquisar = new javax.swing.JTextField();
+        btnPesquisar = new javax.swing.JToggleButton();
+        pnlAZUL = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,17 +84,17 @@ public class CursoListar extends javax.swing.JFrame {
         lblLista.setText("LISTA");
         jPanel1.add(lblLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 150, 30));
 
-        jTextField1.setText("Pesquisar...");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        TXTPesquisar.setText("Pesquisar...");
+        TXTPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                TXTPesquisarActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 130, 190, -1));
-        jPanel1.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 130, 40, 20));
+        jPanel1.add(TXTPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 130, 190, -1));
+        jPanel1.add(btnPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 130, 40, 20));
 
-        jPanel2.setBackground(new java.awt.Color(0, 0, 102));
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 60));
+        pnlAZUL.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel1.add(pnlAZUL, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 60));
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -108,9 +108,9 @@ public class CursoListar extends javax.swing.JFrame {
          cursoEditar.setVisible(true);
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void TXTPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTPesquisarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_TXTPesquisarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
          
@@ -161,16 +161,16 @@ public class CursoListar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField TXTPesquisar;
     private javax.swing.JToggleButton btnCadastrar;
     private javax.swing.JToggleButton btnDeletar;
     private javax.swing.JToggleButton btnEditar;
+    private javax.swing.JToggleButton btnPesquisar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel lblLista;
+    private javax.swing.JPanel pnlAZUL;
     private javax.swing.JTextArea txtALista;
     // End of variables declaration//GEN-END:variables
 }
