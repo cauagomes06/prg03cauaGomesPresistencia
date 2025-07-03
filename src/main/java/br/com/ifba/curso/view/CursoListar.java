@@ -69,7 +69,7 @@ public class CursoListar extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
+        pnlAzulClaro = new javax.swing.JPanel();
         btnCadastrar = new javax.swing.JToggleButton();
         btnEditar = new javax.swing.JToggleButton();
         btnDeletar = new javax.swing.JToggleButton();
@@ -78,16 +78,14 @@ public class CursoListar extends javax.swing.JFrame {
         btnPesquisar = new javax.swing.JToggleButton();
         pnlAZUL = new javax.swing.JPanel();
         btnListar = new javax.swing.JToggleButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tableCurso = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        lblPesquisa = new javax.swing.JLabel();
         lblAtencao = new javax.swing.JLabel();
         lblRecado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlAzulClaro.setBackground(new java.awt.Color(102, 102, 255));
+        pnlAzulClaro.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnCadastrar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cauã\\OneDrive\\Documentos\\NetBeansProjects\\prg03presistencia\\src\\main\\java\\br\\com\\ifba\\curso\\images\\adicioonar.png")); // NOI18N
         btnCadastrar.setText("NOVO");
@@ -96,7 +94,7 @@ public class CursoListar extends javax.swing.JFrame {
                 btnCadastrarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCadastrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 110, 50));
+        pnlAzulClaro.add(btnCadastrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 110, 50));
 
         btnEditar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cauã\\OneDrive\\Documentos\\NetBeansProjects\\prg03presistencia\\src\\main\\java\\br\\com\\ifba\\curso\\images\\EDITAR.png")); // NOI18N
         btnEditar.setText("EDITAR");
@@ -106,7 +104,7 @@ public class CursoListar extends javax.swing.JFrame {
                 btnEditarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, 110, 50));
+        pnlAzulClaro.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, 110, 50));
 
         btnDeletar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cauã\\OneDrive\\Documentos\\NetBeansProjects\\prg03presistencia\\src\\main\\java\\br\\com\\ifba\\curso\\images\\excluir.png")); // NOI18N
         btnDeletar.setText("EXCLUIR");
@@ -115,18 +113,18 @@ public class CursoListar extends javax.swing.JFrame {
                 btnDeletarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnDeletar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, 110, 50));
+        pnlAzulClaro.add(btnDeletar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, 110, 50));
 
         lblLista.setForeground(new java.awt.Color(255, 255, 255));
         lblLista.setText("LISTA");
-        jPanel1.add(lblLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 150, 30));
+        pnlAzulClaro.add(lblLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, 150, 30));
 
         txtPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPesquisarActionPerformed(evt);
             }
         });
-        jPanel1.add(txtPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 190, -1));
+        pnlAzulClaro.add(txtPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 90, 190, -1));
 
         btnPesquisar.setText("...");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -134,10 +132,10 @@ public class CursoListar extends javax.swing.JFrame {
                 btnPesquisarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 90, 30, 20));
+        pnlAzulClaro.add(btnPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 90, 30, 20));
 
         pnlAZUL.setBackground(new java.awt.Color(0, 0, 102));
-        jPanel1.add(pnlAZUL, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 60));
+        pnlAzulClaro.add(pnlAZUL, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 60));
 
         btnListar.setText("LISTAR");
         btnListar.addActionListener(new java.awt.event.ActionListener() {
@@ -145,34 +143,19 @@ public class CursoListar extends javax.swing.JFrame {
                 btnListarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnListar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 110, 50));
+        pnlAzulClaro.add(btnListar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 110, 50));
 
-        tableCurso.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(tableCurso);
-
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 160, 640, 300));
-
-        jLabel1.setText("Pesquisar :");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, -1, -1));
+        lblPesquisa.setText("Pesquisar :");
+        pnlAzulClaro.add(lblPesquisa, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, -1, -1));
 
         lblAtencao.setForeground(new java.awt.Color(255, 0, 0));
         lblAtencao.setText("Atenção");
-        jPanel1.add(lblAtencao, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 80, -1, -1));
+        pnlAzulClaro.add(lblAtencao, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 80, -1, -1));
 
         lblRecado.setText("A pesquisa é feito pelo codigo do curso");
-        jPanel1.add(lblRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 110, -1, -1));
+        pnlAzulClaro.add(lblRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 110, -1, -1));
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnlAzulClaro, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -374,14 +357,12 @@ public class CursoListar extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnListar;
     private javax.swing.JToggleButton btnPesquisar;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAtencao;
     private javax.swing.JLabel lblLista;
+    private javax.swing.JLabel lblPesquisa;
     private javax.swing.JLabel lblRecado;
     private javax.swing.JPanel pnlAZUL;
-    private javax.swing.JTable tableCurso;
+    private javax.swing.JPanel pnlAzulClaro;
     private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
 }
