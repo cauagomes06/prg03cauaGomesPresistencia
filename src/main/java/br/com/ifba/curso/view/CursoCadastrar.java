@@ -4,7 +4,13 @@
  */
 package br.com.ifba.curso.view;
 
+
+import br.com.ifba.curso.entity.Curso;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,11 +21,39 @@ public class CursoCadastrar extends javax.swing.JFrame {
     /**
      * Creates new form CursoCadastrar
      */
+  private static EntityManagerFactory emf;
+
+    // Bloco estático: é executado apenas uma vez, na primeira vez que a classe CursoCadastrar é carregada na memória.
+    static {
+        try {
+            // Tenta criar uma instância do EntityManagerFactory.
+            // "Gerenciamento de Curso" é o nome da unidade de persistência definida no persistence.xml.
+            emf = Persistence.createEntityManagerFactory("Gerenciamento de Curso");
+            // Imprime uma mensagem de sucesso no console se a inicialização do EMF for bem-sucedida.
+            System.out.println("EntityManagerFactory inicializado com sucesso.");
+        } catch (Exception e) {
+            // Captura qualquer exceção (erro) que ocorra durante a inicialização do EntityManagerFactory.
+            // Isso pode acontecer se o banco de dados não estiver acessível, se o persistence.xml estiver incorreto, etc.
+            System.err.println("Erro FATAL ao inicializar EntityManagerFactory: " + e.getMessage());
+            // Exibe uma mensagem de erro crítica para o usuário através de uma janela JOptionPane.
+            JOptionPane.showMessageDialog(null, "Erro ao iniciar o sistema de banco de dados. Verifique o console.", "Erro CrÃ­tico", JOptionPane.ERROR_MESSAGE);
+            // Encerra a aplicação abruptamente, pois o sistema de persistência é essencial.
+            System.exit(1);
+        }
+    }
+
+    // Construtor padrão da classe CursoCadastrar.
+    // É chamado quando uma nova instância de CursoCadastrar é criada (ex: new CursoCadastrar()).
     public CursoCadastrar() {
+        // Este método é responsável por inicializar todos os componentes da interface gráfica (botões, campos de texto, etc.)
+        // e organizá-los no layout da janela.
         initComponents();
-         
-         setLocationRelativeTo(null);
-         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        // Define a posição inicial da janela na tela para ser centralizada.
+        // O valor 'null' indica que a janela deve ser centralizada em relação à tela.
+        setLocationRelativeTo(null);
+        // JFrame.DISPOSE_ON_CLOSE significa que, ao fechar esta janela, apenas ela será descartada
+        // e seus recursos liberados, mas a aplicação principal (outras janelas) permanecerá em execução.
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -31,21 +65,133 @@ public class CursoCadastrar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        txtnomeCadastro = new javax.swing.JTextField();
+        txtCodigoCadastro = new javax.swing.JTextField();
+        btnSalvar = new javax.swing.JToggleButton();
+        lblNome = new javax.swing.JLabel();
+        lblCodigo = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("          CADASTRAR");
+
+        txtnomeCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtnomeCadastroActionPerformed(evt);
+            }
+        });
+
+        txtCodigoCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoCadastroActionPerformed(evt);
+            }
+        });
+
+        btnSalvar.setText("SALVAR");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+
+        lblNome.setText("NOME :");
+
+        lblCodigo.setText("CODIGO :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(181, 181, 181)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCodigoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtnomeCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(193, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtnomeCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNome))
+                .addGap(3, 3, 3)
+                .addComponent(btnSalvar)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCodigoCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCodigo))
+                .addGap(136, 136, 136))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtnomeCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnomeCadastroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtnomeCadastroActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        
+        EntityManager em = null ;
+        
+        try{
+            String nome = txtnomeCadastro.getText(); // recebe os dados do txt
+            String codigo = txtCodigoCadastro.getText();//recebe os dados do txt
+            if(nome.isEmpty() || codigo.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Nome e Código são obrigatórios!", "Erro de Validação", JOptionPane.WARNING_MESSAGE); /// verifica se tem algo no txt e faz a verificacao
+                return;
+            }
+           
+           Curso novoCurso = new Curso();// cria uma nova instancia para o novo curso
+           novoCurso.setNome(nome);
+           novoCurso.setCodigoCurso(codigo);
+           novoCurso.setAtivo(true);
+           // preenche os dados
+           em = emf.createEntityManager();
+           em.getTransaction().begin();
+           em.persist(novoCurso);
+           em.getTransaction().commit();
+            // salva no banco de dados
+            JOptionPane.showMessageDialog(this, "Curso salvo com sucesso! ID: " + novoCurso.getId(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            txtnomeCadastro.setText("");
+            txtCodigoCadastro.setText(""); // teste de validaçao
+
+        }catch (Exception ex){
+               
+            //tratamento de excessoes
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            JOptionPane.showMessageDialog(this, "Erro ao salvar curso: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            if (em != null) {
+                em.close(); // fecha o entity factory
+            }
+
+        } 
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void txtCodigoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoCadastroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoCadastroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -83,5 +229,11 @@ public class CursoCadastrar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnSalvar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblCodigo;
+    private javax.swing.JLabel lblNome;
+    private javax.swing.JTextField txtCodigoCadastro;
+    private javax.swing.JTextField txtnomeCadastro;
     // End of variables declaration//GEN-END:variables
 }
