@@ -4,8 +4,13 @@
  */
 package br.com.ifba.curso.view;
 
-import javax.swing.JFrame;
 
+import br.com.ifba.curso.entity.Curso;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JCheckBox; // Importar JCheckBox para o atributo 'ativo'
 /**
  *
  * @author Cauã
@@ -15,12 +20,36 @@ public class CursoEditar extends javax.swing.JFrame {
     /**
      * Creates new form CursoEditar
      */
-    public CursoEditar() {
-        initComponents();
+      private EntityManagerFactory emf;
+
+      private Curso cursoAtual;
+       
+  
+    public CursoEditar(EntityManagerFactory emf) {
         
-          setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.emf = emf;
+        this.cursoAtual = new Curso(); // Cria uma nova instância de Curso para cadastro
+        initComponents(); // Inicializa os componentes da GUI
+        setTitle("Novo Curso"); // Define o título da janela
+        preencherCampos(); // Preenche os campos (neste caso, com valores padrão ou vazios)
     }
+
+  
+    public CursoEditar(EntityManagerFactory emf, Curso cursoEncontrado) {
+
+        this.emf = emf;
+        this.cursoAtual = cursoEncontrado;
+        initComponents();
+        setTitle("Novo Curso"); // Define o título da janela
+        preencherCampos(); // Preenche os campos (neste caso, com valores padrão ou vazios)
+      
+    }
+
+    public CursoEditar() {
+        
+           
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,21 +60,222 @@ public class CursoEditar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblTituloEditar = new javax.swing.JLabel();
+        btnConfirma = new javax.swing.JToggleButton();
+        txtNovoNome = new javax.swing.JTextField();
+        txtNovoCodigo = new javax.swing.JTextField();
+        lblNovoNome = new javax.swing.JLabel();
+        lblNovoCodigo = new javax.swing.JLabel();
+        cBoxAtivo = new javax.swing.JComboBox<>();
+        lblStatus = new javax.swing.JLabel();
+
+        jLabel1.setText("jLabel1");
+
+        jLabel3.setText("jLabel3");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        lblTituloEditar.setText("       EDITAR DADOS");
+
+        btnConfirma.setText("CONFIRMAR");
+        btnConfirma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmaActionPerformed(evt);
+            }
+        });
+
+        txtNovoCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNovoCodigoActionPerformed(evt);
+            }
+        });
+
+        lblNovoNome.setText("NOVO NOME :");
+
+        lblNovoCodigo.setText("NOVO CODIGO :");
+
+        cBoxAtivo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Inativo", " " }));
+        cBoxAtivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cBoxAtivoActionPerformed(evt);
+            }
+        });
+
+        lblStatus.setText("Status :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnConfirma, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(151, 151, 151)
+                        .addComponent(lblTituloEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblNovoCodigo)
+                                .addComponent(lblNovoNome))
+                            .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNovoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNovoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cBoxAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(lblTituloEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNovoNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNovoNome))
+                .addGap(11, 11, 11)
+                .addComponent(btnConfirma)
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNovoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNovoCodigo))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cBoxAtivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void preencherCampos() {
+         if (cursoAtual != null) {
+            txtNovoNome.setText(cursoAtual.getNome() != null ? cursoAtual.getNome() : ""); // preenche o text com o curso a ser editado
+            txtNovoCodigo.setText(cursoAtual.getCodigoCurso() != null ? cursoAtual.getCodigoCurso(): ""); // preenche o text com o curso a ser editado
+            
+            // *** Preenche o estado do JComboBox cmbAtivo ***
+            if (cBoxAtivo!= null) { // Verifica se cmbAtivo foi inicializado em initComponents
+                cBoxAtivo.setSelectedItem(cursoAtual.isAtivo() ? "Sim" : "Não");
+            }
+
+        } else {
+            // Para novos cursos (quando cursoAtual é criado vazio no construtor)
+            txtNovoNome.setText("");
+            txtNovoCodigo.setText("");
+            if (cBoxAtivo != null) {
+                cBoxAtivo.setSelectedItem("Sim"); // Padrão para novo curso
+            }
+        }
+    }
+      @SuppressWarnings("null")
+    private void btnConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmaActionPerformed
+   // 1. Declaração do EntityManager
+    //    'em' é a interface principal para interagir com o contexto de persistência do JPA/Hibernate.
+    //    É inicializado como 'null' para ser garantidamente fechado no bloco 'finally'.
+    EntityManager em = null;
+
+    try {
+        // 2. Coleta de Dados da Interface Gráfica
+        //    Obtém o texto dos campos 'Nome' e 'Código' da tela, removendo espaços em branco extras.
+        String nome = txtNovoNome.getText().trim();
+        String codigo = txtNovoCodigo.getText().trim();
+        
+        //    Obtém o valor selecionado no JComboBox 'Ativo' (se "Sim" é true, se "Não" é false).
+        boolean ativo = cBoxAtivo.getSelectedItem().equals("Sim"); 
+        
+        // 3. Validação Básica dos Dados
+        //    Verifica se os campos 'Nome' e 'Código' não estão vazios.
+        //    Se estiverem, exibe uma mensagem de aviso e interrompe a execução do método.
+        if (nome.isEmpty() || codigo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nome e Código são obrigatórios!", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
+            return; // Sai do método
+        }
+
+        // 4. Preenchimento do Objeto 'Curso'
+        //    Define os valores coletados da GUI nos atributos do objeto 'cursoAtual'.
+        //    'cursoAtual' é o objeto que representa o curso que está sendo salvo ou atualizado.
+        cursoAtual.setNome(nome);
+        cursoAtual.setCodigoCurso(codigo); // Ou setCodigoCurso(), dependendo do seu getter/setter
+        cursoAtual.setAtivo(ativo);
+
+        // 5. Configuração da Transação JPA
+        //    Obtém uma instância do EntityManager a partir do EntityManagerFactory (emf).
+        //    Inicia uma transação de banco de dados. Todas as operações de persistência
+        //    (salvar, atualizar, remover) devem ser feitas dentro de uma transação.
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+
+        // 6. Lógica de Salvar (Persist) ou Atualizar (Merge)
+        //    Declara uma variável para a mensagem de sucesso final.
+        String successMessage; 
+
+        //    Verifica se o 'cursoAtual' é um NOVO curso ou um curso EXISTENTE.
+        //    - Se cursoAtual.getId() é 'null', significa que o curso é novo (o ID ainda não foi gerado pelo banco de dados).
+        //    - Se cursoAtual.getId() não é 'null', significa que o curso já tem um ID e, portanto, já existe no banco.
+        if (cursoAtual.getId() == null) { 
+            //    Se for um novo curso, usa 'em.persist()'. Isso marca o objeto para ser inserido no banco de dados.
+            em.persist(cursoAtual);
+            successMessage = "Curso salvo com sucesso!";
+        } else { 
+            //    Se for um curso existente, usa 'em.merge()'. Isso marca o objeto para ser atualizado no banco de dados.
+            //    'merge' retorna uma nova instância gerenciada da entidade (importante para o JPA).
+            cursoAtual = em.merge(cursoAtual); 
+            successMessage = "Curso atualizado com sucesso!";
+        }
+
+        // 7. Commit da Transação
+        //    Confirma todas as operações de persistência feitas dentro da transação.
+        //    As alterações são realmente gravadas no banco de dados aqui.
+        //    Para IDs gerados por 'GenerationType.IDENTITY', o ID é retornado e atribuído a 'cursoAtual' neste ponto.
+        em.getTransaction().commit(); 
+
+        // 8. Exibição da Mensagem de Sucesso
+        //    Cria a mensagem final com o ID do curso (agora disponível para cursos novos).
+        //    'String.valueOf(cursoAtual.getId())' é usado para converter o ID para String de forma segura,
+        //    lidando corretamente se ele for 'null' (embora não deva ser aqui com IDENTITY).
+        JOptionPane.showMessageDialog(this, successMessage + " ID: " + String.valueOf(cursoAtual.getId()), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        
+        // 9. Fechamento da Tela Secundária
+        //    Descarta a janela de edição/cadastro, liberando seus recursos.
+        this.dispose(); 
+
+    } catch (Exception ex) {
+        // 10. Tratamento de Erros
+        //     Captura qualquer exceção que ocorra durante o processo de salvar/atualizar.
+        //     Se a transação estiver ativa, ela é revertida ('rollback') para garantir que o banco de dados
+        //     não fique em um estado inconsistente devido a um erro parcial.
+        if (em != null && em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+        //     Exibe uma mensagem de erro genérica e imprime o stack trace no console para depuração.
+        JOptionPane.showMessageDialog(this, "Erro ao salvar/atualizar curso: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    } finally {
+        // 11. Limpeza de Recursos
+        //     Este bloco é sempre executado, independentemente de ocorrer um erro ou não.
+        //     Garante que o EntityManager seja fechado para liberar a conexão com o banco de dados.
+        if (em != null) {
+            em.close();
+        }
+    }
+    }//GEN-LAST:event_btnConfirmaActionPerformed
+
+    private void txtNovoCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNovoCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNovoCodigoActionPerformed
+
+    private void cBoxAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBoxAtivoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cBoxAtivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -83,5 +313,15 @@ public class CursoEditar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnConfirma;
+    private javax.swing.JComboBox<String> cBoxAtivo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblNovoCodigo;
+    private javax.swing.JLabel lblNovoNome;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblTituloEditar;
+    private javax.swing.JTextField txtNovoCodigo;
+    private javax.swing.JTextField txtNovoNome;
     // End of variables declaration//GEN-END:variables
 }
