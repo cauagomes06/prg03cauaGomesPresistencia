@@ -5,6 +5,8 @@
 package br.com.ifba.curso.view;
 
 
+import br.com.ifba.curso.dao.CursoDao;
+import br.com.ifba.curso.dao.CursoIDao;
 import br.com.ifba.curso.entity.Curso;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -21,27 +23,8 @@ public class CursoCadastrar extends javax.swing.JFrame {
     /**
      * Creates new form CursoCadastrar
      */
-  private static EntityManagerFactory emf;
 
-    // Bloco estático: é executado apenas uma vez, na primeira vez que a classe CursoCadastrar é carregada na memória.
-    static {
-        try {
-            // Tenta criar uma instância do EntityManagerFactory.
-            // "Gerenciamento de Curso" é o nome da unidade de persistência definida no persistence.xml.
-            emf = Persistence.createEntityManagerFactory("Gerenciamento de Curso");
-            // Imprime uma mensagem de sucesso no console se a inicialização do EMF for bem-sucedida.
-            System.out.println("EntityManagerFactory inicializado com sucesso.");
-        } catch (Exception e) {
-            // Captura qualquer exceção (erro) que ocorra durante a inicialização do EntityManagerFactory.
-            // Isso pode acontecer se o banco de dados não estiver acessível, se o persistence.xml estiver incorreto, etc.
-            System.err.println("Erro FATAL ao inicializar EntityManagerFactory: " + e.getMessage());
-            // Exibe uma mensagem de erro crítica para o usuário através de uma janela JOptionPane.
-            JOptionPane.showMessageDialog(null, "Erro ao iniciar o sistema de banco de dados. Verifique o console.", "Erro CrÃ­tico", JOptionPane.ERROR_MESSAGE);
-            // Encerra a aplicação abruptamente, pois o sistema de persistência é essencial.
-            System.exit(1);
-        }
-    }
-
+    
     // Construtor padrão da classe CursoCadastrar.
     // É chamado quando uma nova instância de CursoCadastrar é criada (ex: new CursoCadastrar()).
     public CursoCadastrar() {
@@ -149,44 +132,34 @@ public class CursoCadastrar extends javax.swing.JFrame {
     }//GEN-LAST:event_txtnomeCadastroActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        
-        EntityManager em = null ;
-        
-        try{
-            String nome = txtnomeCadastro.getText(); // recebe os dados do txt
-            String codigo = txtCodigoCadastro.getText();//recebe os dados do txt
-            if(nome.isEmpty() || codigo.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Nome e Código são obrigatórios!", "Erro de Validação", JOptionPane.WARNING_MESSAGE); /// verifica se tem algo no txt e faz a verificacao
-                return;
-            }
-           
-           Curso novoCurso = new Curso();// cria uma nova instancia para o novo curso
-           novoCurso.setNome(nome);
-           novoCurso.setCodigoCurso(codigo);
-           novoCurso.setAtivo(true);
-           // preenche os dados
-           em = emf.createEntityManager();
-           em.getTransaction().begin();
-           em.persist(novoCurso);
-           em.getTransaction().commit();
-            // salva no banco de dados
-            JOptionPane.showMessageDialog(this, "Curso salvo com sucesso! ID: " + novoCurso.getId(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            txtnomeCadastro.setText("");
-            txtCodigoCadastro.setText(""); // teste de validaçao
 
-        }catch (Exception ex){
-               
-            //tratamento de excessoes
-            if (em != null && em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            JOptionPane.showMessageDialog(this, "Erro ao salvar curso: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }finally {
-            if (em != null) {
-                em.close(); // fecha o entity factory
-            }
+        
+   Curso novoCurso = new Curso();
+    novoCurso.setNome(txtnomeCadastro.getText()); // recebe os dados do txt
+    novoCurso.setCodigoCurso(txtCodigoCadastro.getText());
 
-        } 
+    if (novoCurso.getNome().isEmpty() || novoCurso.getCodigoCurso().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Nome e Código são obrigatórios!", "Erro de Validação", JOptionPane.WARNING_MESSAGE); // verifica se tem a
+        return;
+    }
+
+    novoCurso.setAtivo(true);
+
+    // Adicionado bloco try-catch para depuração e tratamento de erros
+    try {
+        // salva no banco de dados
+        CursoDao cursoDao = new CursoDao();
+        cursoDao.Save(novoCurso);
+
+        JOptionPane.showMessageDialog(this, "Curso salvo com sucesso! ID: " + novoCurso.getId(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        txtnomeCadastro.setText("");
+        txtCodigoCadastro.setText(""); // teste de validação
+    } catch (Exception e) {
+        // Imprime o stack trace no console para detalhes do erro
+        e.printStackTrace();
+        // Exibe uma mensagem de erro amigável ao usuário
+        JOptionPane.showMessageDialog(this, "Erro ao salvar curso: " + e.getMessage(), "Erro no Banco de Dados", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void txtCodigoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoCadastroActionPerformed

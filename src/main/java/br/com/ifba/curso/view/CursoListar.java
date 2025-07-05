@@ -4,6 +4,8 @@
  */
 package br.com.ifba.curso.view;
 
+import br.com.ifba.curso.dao.CursoDao;
+import br.com.ifba.curso.dao.CursoIDao;
 import br.com.ifba.curso.model.table.CursoTableModel;
 import br.com.ifba.curso.entity.Curso;
 import jakarta.persistence.EntityManager;
@@ -12,6 +14,7 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 import java.awt.event.WindowAdapter; // Importar para WindowListener
 import java.awt.event.WindowEvent;   // Importar para WindowListener
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 
@@ -78,6 +81,8 @@ public class CursoListar extends javax.swing.JFrame {
         btnPesquisar = new javax.swing.JToggleButton();
         pnlAZUL = new javax.swing.JPanel();
         btnListar = new javax.swing.JToggleButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableCurso = new javax.swing.JTable();
         lblPesquisa = new javax.swing.JLabel();
         lblAtencao = new javax.swing.JLabel();
         lblRecado = new javax.swing.JLabel();
@@ -145,6 +150,21 @@ public class CursoListar extends javax.swing.JFrame {
         });
         pnlAzulClaro.add(btnListar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 110, 50));
 
+        tableCurso.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tableCurso);
+
+        pnlAzulClaro.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 160, 640, 300));
+
         lblPesquisa.setText("Pesquisar :");
         pnlAzulClaro.add(lblPesquisa, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, -1, -1));
 
@@ -152,7 +172,7 @@ public class CursoListar extends javax.swing.JFrame {
         lblAtencao.setText("Atenção");
         pnlAzulClaro.add(lblAtencao, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 80, -1, -1));
 
-        lblRecado.setText("A pesquisa é feito pelo codigo do curso");
+        lblRecado.setText("A pesquisa é feita pelo nome do curso");
         pnlAzulClaro.add(lblRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 110, -1, -1));
 
         getContentPane().add(pnlAzulClaro, java.awt.BorderLayout.CENTER);
@@ -175,7 +195,7 @@ public class CursoListar extends javax.swing.JFrame {
         if (cursoParaEditar != null) {
             // Abre a tela secundária no modo de edição, passando o objeto Curso
             // Assumindo que sua tela secundária se chama CursoEditar
-            CursoEditar cursoEdit = new CursoEditar(emf, cursoParaEditar); // Construtor para editar curso
+            CursoEditar cursoEdit = new CursoEditar(cursoParaEditar); // Construtor para editar curso
             cursoEdit.setVisible(true);
 
             // Adiciona um listener para a tela secundária. Quando ela fechar, a lista é recarregada.
@@ -206,7 +226,7 @@ public class CursoListar extends javax.swing.JFrame {
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
     
-     int selectedRow = tableCurso.getSelectedRow();
+     int selectedRow = tableCurso.getSelectedRow(); //seleciona da tabela
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, selecione um curso para excluir.", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
@@ -223,71 +243,42 @@ public class CursoListar extends javax.swing.JFrame {
                       "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
         
         if (confirm == JOptionPane.YES_OPTION) {
-            EntityManager em = null;
-            try {
-                em = emf.createEntityManager();
-                em.getTransaction().begin();
-                
+   
                 // Primeiro, encontre a entidade gerenciada antes de remover
-                // É crucial buscar a entidade no mesmo EntityManager antes de remover
-                Curso gerenciadoCurso = em.find(Curso.class, cursoParaExcluir.getId());
-                if (gerenciadoCurso != null) {
-                    em.remove(gerenciadoCurso);
-                    em.getTransaction().commit();
+                     CursoIDao cursoDao = new CursoDao();
+                      cursoDao.findById(cursoParaExcluir.getId()); // usa o findbyid pra prcurar o curso no banco
+                if ( cursoParaExcluir != null) { // se existir
+                    
+                    cursoDao.Delete(cursoParaExcluir); // apaga o curso
                     JOptionPane.showMessageDialog(this, "Curso excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     btnListarActionPerformed(null); // Recarrega a lista
                 } else {
                     JOptionPane.showMessageDialog(this, "Curso não encontrado para exclusão.", "Erro", JOptionPane.ERROR_MESSAGE);
-                    em.getTransaction().rollback(); // Reverte a transação se não encontrar
                 }
-            } catch (Exception ex) {
-                if (em != null && em.getTransaction().isActive()) {
-                    em.getTransaction().rollback();
-                }
-                JOptionPane.showMessageDialog(this, "Erro ao excluir curso: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                ex.printStackTrace();
-            } finally {
-                if (em != null) {
-                    em.close();
-                }
-            }
+           
         }
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-       String termoPesquisa = txtPesquisar.getText();
-        // Remove o texto padrão se o usuário não digitou nada
-        if (termoPesquisa.trim().isEmpty() || "Pesquisar...".equals(termoPesquisa.trim())) {
-            btnListarActionPerformed(null); // Se o campo estiver vazio, lista tudo
-            return;
-        }
+   
+        String termoPesquisa = txtPesquisar.getText();
+
+    try {
+        CursoDao cursoDao = new CursoDao();
         
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            // Consulta JPQL para buscar cursos pelo nome ou código que contenham o termo de pesquisa
-            // Usamos LIKE e % para buscar correspondências parciais
-            // UPPER() para tornar a pesquisa case-insensitive (ignore maiúsculas/minúsculas)
-            List<Curso> cursosFiltrados = em.createQuery(
-                "SELECT c FROM Curso c WHERE UPPER(c.nome) LIKE :termo OR UPPER(c.codigoCurso) LIKE :termo", Curso.class)
-                .setParameter("termo", "%" + termoPesquisa.toUpperCase() + "%")
-                .getResultList();
-            
-            cursoTableModel.setCursos(cursosFiltrados); // Atualiza a tabela com os resultados filtrados
-            
-            if (cursosFiltrados.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Nenhum curso encontrado para o termo: '" + termoPesquisa + "'", "Pesquisa Vazia", JOptionPane.INFORMATION_MESSAGE);
-            }
-            
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro ao pesquisar cursos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+        List<Curso> cursosFiltrados = cursoDao.findbyName(termoPesquisa); //usa um metodo criado no cursoDao para pesquisar pelo nome do curso
+
+        cursoTableModel.setCursos(cursosFiltrados != null ? cursosFiltrados : new ArrayList<>()); 
+
+        // verifica se a lista de resultados é nula ou vazia
+        if (cursosFiltrados == null || cursosFiltrados.isEmpty()) { 
+            JOptionPane.showMessageDialog(this, "Nenhum curso encontrado para o termo: \"" + termoPesquisa + "\"", "Pesquisa Vazia", JOptionPane.INFORMATION_MESSAGE);
         }
 
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Erro ao pesquisar cursos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace(); // imprime a pilha de erros no console
+    }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
@@ -357,12 +348,14 @@ public class CursoListar extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnListar;
     private javax.swing.JToggleButton btnPesquisar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAtencao;
     private javax.swing.JLabel lblLista;
     private javax.swing.JLabel lblPesquisa;
     private javax.swing.JLabel lblRecado;
     private javax.swing.JPanel pnlAZUL;
     private javax.swing.JPanel pnlAzulClaro;
+    private javax.swing.JTable tableCurso;
     private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
 }

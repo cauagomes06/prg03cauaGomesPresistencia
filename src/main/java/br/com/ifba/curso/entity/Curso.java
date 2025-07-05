@@ -4,12 +4,14 @@
  */
 package br.com.ifba.curso.entity;
 
+import br.com.ifba.infrastructure.entity.PersistenceEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.io.Serializable;
 
 /**
  *
@@ -18,7 +20,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CURSOS")// cria a tabela no banco
-public class Curso {
+public class Curso extends PersistenceEntity 
+        implements Serializable {
  @Id //id como chave primaria
  @GeneratedValue(strategy = GenerationType.AUTO)
  private Long id;
@@ -36,6 +39,7 @@ public class Curso {
 
     }
 //setters e getters a seguir
+ @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -52,6 +56,7 @@ public class Curso {
         this.ativo = ativo;
     }
 
+ @Override
     public Long getId() {
         return id;
     }
@@ -64,9 +69,8 @@ public class Curso {
         return codigoCurso;
     }
 
-    public boolean isAtivo() {
+  
+     public boolean isAtivoNoParamenter() {
         return ativo;
     }
-
- 
 }
