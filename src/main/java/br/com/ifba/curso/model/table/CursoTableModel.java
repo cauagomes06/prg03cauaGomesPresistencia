@@ -69,7 +69,7 @@ public class CursoTableModel extends AbstractTableModel {
             case 0: return curso.getId();
             case 1: return curso.getNome();
             case 2: return curso.getCodigoCurso(); // Use getCodigoCurso() se esse for o seu getter
-            case 3: return curso.isAtivo() ? "Sim" : "Não"; // Formata o booleano para "Sim" ou "Não"
+            case 3: return curso.isAtivoNoParamenter() ? "Sim" : "Não"; // Formata o booleano para "Sim" ou "Não"
             default: return null; // Para colunas inválidas
         }
     }
