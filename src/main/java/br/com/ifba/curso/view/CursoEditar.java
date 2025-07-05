@@ -5,6 +5,8 @@
 package br.com.ifba.curso.view;
 
 
+import br.com.ifba.curso.dao.CursoDao;
+import br.com.ifba.curso.dao.CursoIDao;
 import br.com.ifba.curso.entity.Curso;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -20,14 +22,14 @@ public class CursoEditar extends javax.swing.JFrame {
     /**
      * Creates new form CursoEditar
      */
-      private EntityManagerFactory emf;
+
 
       private Curso cursoAtual;
        
   
     public CursoEditar(EntityManagerFactory emf) {
         
-        this.emf = emf;
+    
         this.cursoAtual = new Curso(); // Cria uma nova instância de Curso para cadastro
         initComponents(); // Inicializa os componentes da GUI
         setTitle("Novo Curso"); // Define o título da janela
@@ -35,9 +37,8 @@ public class CursoEditar extends javax.swing.JFrame {
     }
 
   
-    public CursoEditar(EntityManagerFactory emf, Curso cursoEncontrado) {
+    public CursoEditar(Curso cursoEncontrado) {
 
-        this.emf = emf;
         this.cursoAtual = cursoEncontrado;
         initComponents();
         setTitle("Novo Curso"); // Define o título da janela
@@ -164,7 +165,7 @@ public class CursoEditar extends javax.swing.JFrame {
             
             // *** Preenche o estado do JComboBox cmbAtivo ***
             if (cBoxAtivo!= null) { // Verifica se cmbAtivo foi inicializado em initComponents
-                cBoxAtivo.setSelectedItem(cursoAtual.isAtivo() ? "Sim" : "Não");
+                cBoxAtivo.setSelectedItem(cursoAtual.isAtivoNoParamenter()? "Sim" : "Não");
             }
 
         } else {
@@ -178,94 +179,49 @@ public class CursoEditar extends javax.swing.JFrame {
     }
       @SuppressWarnings("null")
     private void btnConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmaActionPerformed
-   // 1. Declaração do EntityManager
-    //    'em' é a interface principal para interagir com o contexto de persistência do JPA/Hibernate.
-    //    É inicializado como 'null' para ser garantidamente fechado no bloco 'finally'.
-    EntityManager em = null;
 
     try {
-        // 2. Coleta de Dados da Interface Gráfica
-        //    Obtém o texto dos campos 'Nome' e 'Código' da tela, removendo espaços em branco extras.
-        String nome = txtNovoNome.getText().trim();
-        String codigo = txtNovoCodigo.getText().trim();
+
         
-        //    Obtém o valor selecionado no JComboBox 'Ativo' (se "Sim" é true, se "Não" é false).
-        boolean ativo = cBoxAtivo.getSelectedItem().equals("Sim"); 
+        cursoAtual.setNome(txtNovoNome.getText()); //recebe os dados da view
+        cursoAtual.setCodigoCurso(txtNovoCodigo.getText());
         
-        // 3. Validação Básica dos Dados
-        //    Verifica se os campos 'Nome' e 'Código' não estão vazios.
-        //    Se estiverem, exibe uma mensagem de aviso e interrompe a execução do método.
-        if (nome.isEmpty() || codigo.isEmpty()) {
+        String selecionado = (String) cBoxAtivo.getSelectedItem();
+
+        boolean ativo;
+        if ("Ativo".equalsIgnoreCase(selecionado)) { // Case-insensitive comparison for "Ativo"
+        ativo = true;
+        } else {
+        ativo = false; 
+        }
+        cursoAtual.setAtivo(ativo);
+        
+        if (cursoAtual.getNome().isEmpty() || cursoAtual.getCodigoCurso().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nome e Código são obrigatórios!", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
             return; // Sai do método
+        }else{
+            //edita o curso no banco de dados
+              CursoIDao cursoDao = new CursoDao();
+              cursoDao.Update(cursoAtual);
         }
-
-        // 4. Preenchimento do Objeto 'Curso'
-        //    Define os valores coletados da GUI nos atributos do objeto 'cursoAtual'.
-        //    'cursoAtual' é o objeto que representa o curso que está sendo salvo ou atualizado.
-        cursoAtual.setNome(nome);
-        cursoAtual.setCodigoCurso(codigo); // Ou setCodigoCurso(), dependendo do seu getter/setter
-        cursoAtual.setAtivo(ativo);
-
-        // 5. Configuração da Transação JPA
-        //    Obtém uma instância do EntityManager a partir do EntityManagerFactory (emf).
-        //    Inicia uma transação de banco de dados. Todas as operações de persistência
-        //    (salvar, atualizar, remover) devem ser feitas dentro de uma transação.
-        em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        // 6. Lógica de Salvar (Persist) ou Atualizar (Merge)
-        //    Declara uma variável para a mensagem de sucesso final.
+        //verificacoes de erro e mensagem de conclusao
         String successMessage; 
-
-        //    Verifica se o 'cursoAtual' é um NOVO curso ou um curso EXISTENTE.
-        //    - Se cursoAtual.getId() é 'null', significa que o curso é novo (o ID ainda não foi gerado pelo banco de dados).
-        //    - Se cursoAtual.getId() não é 'null', significa que o curso já tem um ID e, portanto, já existe no banco.
         if (cursoAtual.getId() == null) { 
-            //    Se for um novo curso, usa 'em.persist()'. Isso marca o objeto para ser inserido no banco de dados.
-            em.persist(cursoAtual);
+          
             successMessage = "Curso salvo com sucesso!";
         } else { 
-            //    Se for um curso existente, usa 'em.merge()'. Isso marca o objeto para ser atualizado no banco de dados.
-            //    'merge' retorna uma nova instância gerenciada da entidade (importante para o JPA).
-            cursoAtual = em.merge(cursoAtual); 
+
             successMessage = "Curso atualizado com sucesso!";
         }
 
-        // 7. Commit da Transação
-        //    Confirma todas as operações de persistência feitas dentro da transação.
-        //    As alterações são realmente gravadas no banco de dados aqui.
-        //    Para IDs gerados por 'GenerationType.IDENTITY', o ID é retornado e atribuído a 'cursoAtual' neste ponto.
-        em.getTransaction().commit(); 
-
-        // 8. Exibição da Mensagem de Sucesso
-        //    Cria a mensagem final com o ID do curso (agora disponível para cursos novos).
-        //    'String.valueOf(cursoAtual.getId())' é usado para converter o ID para String de forma segura,
-        //    lidando corretamente se ele for 'null' (embora não deva ser aqui com IDENTITY).
         JOptionPane.showMessageDialog(this, successMessage + " ID: " + String.valueOf(cursoAtual.getId()), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        
-        // 9. Fechamento da Tela Secundária
-        //    Descarta a janela de edição/cadastro, liberando seus recursos.
+
         this.dispose(); 
 
     } catch (Exception ex) {
-        // 10. Tratamento de Erros
-        //     Captura qualquer exceção que ocorra durante o processo de salvar/atualizar.
-        //     Se a transação estiver ativa, ela é revertida ('rollback') para garantir que o banco de dados
-        //     não fique em um estado inconsistente devido a um erro parcial.
-        if (em != null && em.getTransaction().isActive()) {
-            em.getTransaction().rollback();
-        }
-        //     Exibe uma mensagem de erro genérica e imprime o stack trace no console para depuração.
+
         JOptionPane.showMessageDialog(this, "Erro ao salvar/atualizar curso: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace();
-    } finally {
-        // 11. Limpeza de Recursos
-        //     Este bloco é sempre executado, independentemente de ocorrer um erro ou não.
-        //     Garante que o EntityManager seja fechado para liberar a conexão com o banco de dados.
-        if (em != null) {
-            em.close();
-        }
     }
     }//GEN-LAST:event_btnConfirmaActionPerformed
 
