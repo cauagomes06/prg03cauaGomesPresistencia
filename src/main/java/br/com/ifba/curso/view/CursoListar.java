@@ -4,8 +4,8 @@
  */
 package br.com.ifba.curso.view;
 
-import br.com.ifba.curso.dao.CursoDao;
-import br.com.ifba.curso.dao.CursoIDao;
+import br.com.ifba.curso.controller.CursoController;
+import br.com.ifba.curso.controller.CursoIController;
 import br.com.ifba.curso.model.table.CursoTableModel;
 import br.com.ifba.curso.entity.Curso;
 import jakarta.persistence.EntityManager;
@@ -27,6 +27,7 @@ public class CursoListar extends javax.swing.JFrame {
     /**
      * Creates new form CursoListar
      */
+    private CursoIController cursoController = new CursoController();// cria objeto que liga com as outras camadas do projeto
    private static EntityManagerFactory emf;
    private CursoTableModel cursoTableModel;
     // Bloco estático para inicializar o EMF na primeira vez que a classe é carregada
@@ -224,6 +225,7 @@ public class CursoListar extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
+ 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
     
      int selectedRow = tableCurso.getSelectedRow(); //seleciona da tabela
@@ -245,11 +247,11 @@ public class CursoListar extends javax.swing.JFrame {
         if (confirm == JOptionPane.YES_OPTION) {
    
                 // Primeiro, encontre a entidade gerenciada antes de remover
-                     CursoIDao cursoDao = new CursoDao();
-                      cursoDao.findById(cursoParaExcluir.getId()); // usa o findbyid pra prcurar o curso no banco
+                      
+                      cursoController.findById(cursoParaExcluir.getId()); // usa o findbyid pra prcurar o curso no banco
                 if ( cursoParaExcluir != null) { // se existir
                     
-                    cursoDao.Delete(cursoParaExcluir); // apaga o curso
+                    cursoController.delete(cursoParaExcluir); //apaga do banco
                     JOptionPane.showMessageDialog(this, "Curso excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     btnListarActionPerformed(null); // Recarrega a lista
                 } else {
@@ -264,9 +266,9 @@ public class CursoListar extends javax.swing.JFrame {
         String termoPesquisa = txtPesquisar.getText();
 
     try {
-        CursoDao cursoDao = new CursoDao();
+      
         
-        List<Curso> cursosFiltrados = cursoDao.findbyName(termoPesquisa); //usa um metodo criado no cursoDao para pesquisar pelo nome do curso
+        List<Curso> cursosFiltrados = cursoController.findByNome(termoPesquisa); //usa um metodo criado no cursoDao para pesquisar pelo nome do curso
 
         cursoTableModel.setCursos(cursosFiltrados != null ? cursosFiltrados : new ArrayList<>()); 
 

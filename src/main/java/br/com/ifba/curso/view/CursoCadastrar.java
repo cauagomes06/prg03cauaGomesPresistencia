@@ -4,13 +4,11 @@
  */
 package br.com.ifba.curso.view;
 
-
+import br.com.ifba.curso.controller.CursoController;
+import br.com.ifba.curso.controller.CursoIController;
 import br.com.ifba.curso.dao.CursoDao;
-import br.com.ifba.curso.dao.CursoIDao;
+
 import br.com.ifba.curso.entity.Curso;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -24,7 +22,7 @@ public class CursoCadastrar extends javax.swing.JFrame {
      * Creates new form CursoCadastrar
      */
 
-    
+       private CursoIController cursoController = new CursoController(); // cria objeto que liga com as outras camadas do projeto
     // Construtor padrão da classe CursoCadastrar.
     // É chamado quando uma nova instância de CursoCadastrar é criada (ex: new CursoCadastrar()).
     public CursoCadastrar() {
@@ -148,8 +146,8 @@ public class CursoCadastrar extends javax.swing.JFrame {
     // Adicionado bloco try-catch para depuração e tratamento de erros
     try {
         // salva no banco de dados
-        CursoDao cursoDao = new CursoDao();
-        cursoDao.Save(novoCurso);
+       
+        cursoController.save(novoCurso); //passa para a proxima camada 
 
         JOptionPane.showMessageDialog(this, "Curso salvo com sucesso! ID: " + novoCurso.getId(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         txtnomeCadastro.setText("");

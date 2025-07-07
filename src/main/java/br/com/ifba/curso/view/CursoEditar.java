@@ -5,10 +5,12 @@
 package br.com.ifba.curso.view;
 
 
+import br.com.ifba.curso.controller.CursoController;
+import br.com.ifba.curso.controller.CursoIController;
 import br.com.ifba.curso.dao.CursoDao;
 import br.com.ifba.curso.dao.CursoIDao;
 import br.com.ifba.curso.entity.Curso;
-import jakarta.persistence.EntityManager;
+
 import jakarta.persistence.EntityManagerFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,7 +25,7 @@ public class CursoEditar extends javax.swing.JFrame {
      * Creates new form CursoEditar
      */
 
-
+      private CursoIController cursoController = new CursoController(); // cria objeto que liga com as outras camadas do projeto
       private Curso cursoAtual;
        
   
@@ -201,8 +203,8 @@ public class CursoEditar extends javax.swing.JFrame {
             return; // Sai do método
         }else{
             //edita o curso no banco de dados
-              CursoIDao cursoDao = new CursoDao();
-              cursoDao.Update(cursoAtual);
+     
+              cursoController.update(cursoAtual);//passa para a proxima camada para atualizar
         }
         //verificacoes de erro e mensagem de conclusao
         String successMessage; 
