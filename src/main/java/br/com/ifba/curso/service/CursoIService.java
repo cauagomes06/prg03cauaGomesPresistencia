@@ -11,6 +11,7 @@ import java.util.List;
  *
  * @author Cauã
  */
+//interface da camada Service da arquitetura aqui tem todos os metodos abstract que serao aplicados na classe Service
 public interface CursoIService {
     
     public abstract Curso save (Curso curso);

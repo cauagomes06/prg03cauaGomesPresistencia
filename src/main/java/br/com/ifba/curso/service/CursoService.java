@@ -20,7 +20,9 @@ public class CursoService implements CursoIService{
 
     public CursoService() {
     }
-
+   // o objetivo desses meetodos é validar os dados e a acao e passar para o dao
+    
+   
     @Override
     public Curso save(Curso curso) throws RunTimeException {
       

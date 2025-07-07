@@ -16,6 +16,7 @@ import java.util.List;
 public class CursoController implements CursoIController {
     
     
+    // todos os metdos da camada controller objetivo aqui é passar o que foi recebido na vie para o service
     private final CursoIService cursoIService = new CursoService(); 
     
     @Override

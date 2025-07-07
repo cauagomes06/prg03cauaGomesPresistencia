@@ -11,6 +11,7 @@ import java.util.List;
  *
  * @author Cauã
  */
+//interface da camada controladora da arquitetura aqui tem todos os metodos abstract que serao aplicados na classe controller
 public interface CursoIController {
     
       public abstract Curso save(Curso curso);
