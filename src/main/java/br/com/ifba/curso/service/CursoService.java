@@ -7,7 +7,7 @@ package br.com.ifba.curso.service;
 import br.com.ifba.curso.dao.CursoDao;
 import br.com.ifba.curso.dao.CursoIDao;
 import br.com.ifba.curso.entity.Curso;
-
+import br.com.ifba.infrastructure.util.StringUtil;
 import java.util.List;
 
 /**
@@ -24,13 +24,13 @@ public class CursoService implements CursoIService{
     
    
     @Override
-    public Curso save(Curso curso) throws RunTimeException {
+    public Curso save(Curso curso) throws RuntimeException {
       
-        if(curso == null){
-            throw new RunTimeException("Dados do Curso nao preenchidos");
+        if( StringUtil.estaEmBranco(curso.getNome()) ){ // utilizacao das verifificoes da classe String Util é repetida em todos os metodos
+            throw new RuntimeException("Dados do Curso nao preenchidos");
             
         }else if (curso.getId() != null ){
-            throw new RunTimeException("Curso"+ "ja existente no banco de dados");
+            throw new RuntimeException("Curso"+ "ja existente no banco de dados");
       }else{
        return cursoDao.Save(curso);
         }    
@@ -38,10 +38,10 @@ public class CursoService implements CursoIService{
     }
 
     @Override
-    public Curso update(Curso curso)throws RunTimeException {
+    public Curso update(Curso curso)throws RuntimeException {
         
-        if(curso == null){
-            throw new RunTimeException("Dados do Curso nao preenchidos");
+        if(StringUtil.ehNull(curso)){
+            throw new RuntimeException("Dados do Curso nao preenchidos");
             
         } else {
         return cursoDao.Update(curso);
@@ -49,10 +49,10 @@ public class CursoService implements CursoIService{
     }
 
     @Override
-    public void delete(Curso curso)throws RunTimeException {
+    public void delete(Curso curso)throws RuntimeException {
         
-      if(curso == null){
-            throw new RunTimeException("Esse curso nao existe");
+      if(StringUtil.ehNull(curso)){
+            throw new RuntimeException("Esse curso nao existe");
             
         } else {
        cursoDao.Delete(curso);
@@ -60,15 +60,15 @@ public class CursoService implements CursoIService{
     }
     
     @Override
-    public List<Curso> findAll() throws RunTimeException{
+    public List<Curso> findAll() throws RuntimeException{
   
         return cursoDao.findAll();
     }
 
     @Override
-    public Curso findById(Long id) throws RunTimeException{
-         if(id == null){
-            throw new RunTimeException("Esse curso nao existe");
+    public Curso findById(Long id) throws RuntimeException{
+         if(StringUtil.idNull(id)){
+            throw new RuntimeException("Esse curso nao existe");
             
         }else{
        return   cursoDao.findById(id);
@@ -76,9 +76,9 @@ public class CursoService implements CursoIService{
     }
 
     @Override
-    public List<Curso> findByNome(String nome) throws RunTimeException{
-          if(nome == null){
-            throw new RunTimeException("Esse curso nao existe");
+    public List<Curso> findByNome(String nome) throws RuntimeException{
+          if(StringUtil.estaVazia(nome)||StringUtil.estaEmBranco(nome)){
+            throw new RuntimeException("Esse curso nao existe");
             
         }else{
          return cursoDao.findbyName(nome);

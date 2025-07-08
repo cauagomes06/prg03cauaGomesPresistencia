@@ -11,6 +11,7 @@ import java.util.List;
 /**
  *
  * @author Cauã
+ * @param <Entity>
  */
 public interface GenericIDao<Entity extends PersistenceEntity>{
     

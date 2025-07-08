@@ -27,7 +27,7 @@ public class CursoListar extends javax.swing.JFrame {
     /**
      * Creates new form CursoListar
      */
-    private CursoIController cursoController = new CursoController();// cria objeto que liga com as outras camadas do projeto
+   private CursoIController cursoController = new CursoController();// cria objeto que liga com as outras camadas do projeto
    private static EntityManagerFactory emf;
    private CursoTableModel cursoTableModel;
     // Bloco estático para inicializar o EMF na primeira vez que a classe é carregada
