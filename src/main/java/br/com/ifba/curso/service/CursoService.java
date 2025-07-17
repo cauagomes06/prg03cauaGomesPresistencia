@@ -9,7 +9,8 @@ import br.com.ifba.curso.entity.Curso;
 import br.com.ifba.curso.repository.CursoRepository;
 import br.com.ifba.infrastructure.util.StringUtil;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,17 +18,14 @@ import org.springframework.stereotype.Service;
  * @author Cauã
  */
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class CursoService implements CursoIService{
-    
-    @Autowired
-    private   CursoRepository cursoRepository;
 
-    public CursoService(CursoRepository cursoRepository) {
-        this.cursoRepository = cursoRepository;
-    }
-   // o objetivo desses metodos é validar os dados e a acao e passar para o dao
+    private final CursoRepository cursoRepository;
+
+   // o bjetivo desses metodos é validar os dados e a acao e passar para o dao
     
-   
     @Override
     public Curso save(Curso curso) throws RuntimeException {
       
@@ -37,6 +35,7 @@ public class CursoService implements CursoIService{
         }else if (curso.getId() != null ){
             throw new RuntimeException("Curso"+ "ja existente no banco de dados");
       }else{
+              log.info(" Salvando curso"); // log
        return cursoRepository.save(curso);
         }    
 
@@ -49,6 +48,7 @@ public class CursoService implements CursoIService{
             throw new RuntimeException("Dados do Curso nao preenchidos");
             
         } else {
+               log.info(" Editando Curso");//log
         return cursoRepository.save(curso);
         }
     }
@@ -60,13 +60,14 @@ public class CursoService implements CursoIService{
             throw new RuntimeException("Esse curso nao existe");
             
         } else {
+          log.info(" Deletando Curso");//log
           cursoRepository.delete(curso);
         }
     }
     
     @Override
     public List<Curso> findAll() throws RuntimeException{
-  
+
         return cursoRepository.findAll();
     }
 

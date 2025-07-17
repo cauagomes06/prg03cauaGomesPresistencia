@@ -12,6 +12,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.ToString;
+
+
 
 /**
  *
@@ -20,6 +24,8 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "CURSOS")// cria a tabela no banco
+@Data
+@ToString(exclude ="id")
 public class Curso extends PersistenceEntity 
         implements Serializable {
  @Id //id como chave primaria
@@ -38,38 +44,8 @@ public class Curso extends PersistenceEntity
     public Curso() {
 
     }
-//setters e getters a seguir
- @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
-    public void setCodigoCurso(String codigoCurso) {
-        this.codigoCurso = codigoCurso;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
-
- @Override
-    public Long getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getCodigoCurso() {
-        return codigoCurso;
-    }
-
-  
      public boolean isAtivoNoParamenter() {
         return ativo;
     }
